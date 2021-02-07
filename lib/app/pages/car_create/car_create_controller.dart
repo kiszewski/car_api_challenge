@@ -13,11 +13,11 @@ abstract class _CarCreateControllerBase with Store {
     this.car,
     this.globalCarController,
   ) {
-    setModel(car.model ?? '');
-    setBrand(car.brand ?? '');
-    setPhoto(car.photo ?? '');
-    setPrice(car.price?.toString() ?? '0');
-    setYear(car.year?.toString() ?? '0');
+    if (model == null) setModel(car.model ?? '');
+    if (brand == null) setBrand(car.brand ?? '');
+    if (photo == null) setPhoto(car.photo ?? '');
+    if (price == null) setPrice(car.price?.toString() ?? '0');
+    if (year == null) setYear(car.year?.toString() ?? '0');
   }
 
   @observable
