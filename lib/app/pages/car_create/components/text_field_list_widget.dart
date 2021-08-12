@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../car_create_controller.dart';
 
 class TextFieldListWidget extends StatelessWidget {
-  final bool edit;
+  final bool isEdit;
   final CarCreateController controller;
 
-  const TextFieldListWidget({Key key, this.edit, this.controller})
+  const TextFieldListWidget({Key key, this.isEdit, this.controller})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -17,24 +17,21 @@ class TextFieldListWidget extends StatelessWidget {
         padding: EdgeInsets.all(20),
         child: Column(
           children: [
-            edit
-                ? SizedBox()
-                : TextField(
-                    controller: edit
-                        ? TextEditingController(text: controller.model)
-                        : null,
-                    onChanged: controller.setModel,
-                    decoration: InputDecoration(labelText: 'Modelo'),
-                  ),
             TextField(
               controller:
-                  edit ? TextEditingController(text: controller.brand) : null,
+                  isEdit ? TextEditingController(text: controller.model) : null,
+              onChanged: controller.setModel,
+              decoration: InputDecoration(labelText: 'Modelo'),
+            ),
+            TextField(
+              controller:
+                  isEdit ? TextEditingController(text: controller.brand) : null,
               onChanged: controller.setBrand,
               decoration: InputDecoration(labelText: 'Marca'),
             ),
             TextField(
               controller:
-                  edit ? TextEditingController(text: controller.photo) : null,
+                  isEdit ? TextEditingController(text: controller.photo) : null,
               onChanged: controller.setPhoto,
               decoration: InputDecoration(labelText: 'Foto URL'),
             ),
@@ -44,7 +41,7 @@ class TextFieldListWidget extends StatelessWidget {
                   width: _width * .3,
                   child: TextFormField(
                     maxLength: 4,
-                    controller: edit
+                    controller: isEdit
                         ? TextEditingController(
                             text: controller.year.toString(),
                           )
@@ -59,7 +56,7 @@ class TextFieldListWidget extends StatelessWidget {
                   width: _width * .4,
                   child: TextFormField(
                     maxLength: 10,
-                    controller: edit
+                    controller: isEdit
                         ? TextEditingController(
                             text: controller.price.toString())
                         : null,

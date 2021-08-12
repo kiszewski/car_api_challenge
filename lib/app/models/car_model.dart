@@ -1,13 +1,16 @@
 class CarModel {
+  int id;
   String model;
   String brand;
   int year;
   int price;
   String photo;
 
-  CarModel({this.model, this.brand, this.year, this.price, this.photo});
+  CarModel(
+      {this.id, this.model, this.brand, this.year, this.price, this.photo});
 
   CarModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     model = json['model'];
     brand = json['brand'];
     year = json['year'];
@@ -27,6 +30,7 @@ class CarModel {
 
   CarModel copy() {
     return new CarModel(
+      id: this.id,
       model: this.model,
       brand: this.brand,
       year: this.year,

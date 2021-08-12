@@ -24,6 +24,14 @@ mixin _$CarListController on _CarListControllerBase, Store {
     });
   }
 
+  final _$fetchInitialDataAsyncAction =
+      AsyncAction('_CarListControllerBase.fetchInitialData');
+
+  @override
+  Future<dynamic> fetchInitialData() {
+    return _$fetchInitialDataAsyncAction.run(() => super.fetchInitialData());
+  }
+
   final _$addCarAsyncAction = AsyncAction('_CarListControllerBase.addCar');
 
   @override
@@ -39,18 +47,12 @@ mixin _$CarListController on _CarListControllerBase, Store {
     return _$updateCarAsyncAction.run(() => super.updateCar(updatedCar));
   }
 
-  final _$_CarListControllerBaseActionController =
-      ActionController(name: '_CarListControllerBase');
+  final _$deleteCarAsyncAction =
+      AsyncAction('_CarListControllerBase.deleteCar');
 
   @override
-  dynamic _initCars(List<CarModel> value) {
-    final _$actionInfo = _$_CarListControllerBaseActionController.startAction(
-        name: '_CarListControllerBase._initCars');
-    try {
-      return super._initCars(value);
-    } finally {
-      _$_CarListControllerBaseActionController.endAction(_$actionInfo);
-    }
+  Future deleteCar(CarModel car) {
+    return _$deleteCarAsyncAction.run(() => super.deleteCar(car));
   }
 
   @override

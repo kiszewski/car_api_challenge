@@ -1,5 +1,4 @@
 import 'package:car_api_challenge/app/models/car_model.dart';
-import 'package:car_api_challenge/app/repositories/external_repository.dart';
 import 'package:car_api_challenge/app/repositories/local_repository.dart';
 import 'package:mobx/mobx.dart';
 part 'car_list_controller.g.dart';
@@ -7,29 +6,19 @@ part 'car_list_controller.g.dart';
 class CarListController = _CarListControllerBase with _$CarListController;
 
 abstract class _CarListControllerBase with Store {
-  final ExternalRepository externalRepository;
-  final LocalRepository localRepository;
+  final LocalRepository _localRepository;
 
-  _CarListControllerBase(this.externalRepository, this.localRepository) {
-    localRepository.getCloneCars().then((value) {
-      if (value.isEmpty) {
-        externalRepository.getCars().then((cars) => cars.forEach((element) {
-              localRepository
-                  .insertCar(element)
-                  .then((_) => localRepository.insertCloneCar(element))
-                  .then((_) => localRepository.getCloneCars().then(_initCars));
-            }));
-      } else {
-        localRepository.getCloneCars().then(_initCars);
-      }
-    });
-  }
+  _CarListControllerBase(this._localRepository);
 
   @observable
   List<CarModel> cars = [];
 
   @action
-  _initCars(List<CarModel> value) => cars = value;
+  Future fetchInitialData() async {
+    final result = await _localRepository.getCars();
+
+    cars = result;
+  }
 
   @action
   addCar(CarModel value) async {
@@ -38,7 +27,7 @@ abstract class _CarListControllerBase with Store {
     newCars.add(value);
     cars = newCars;
 
-    await localRepository.insertCloneCar(value);
+    await _localRepository.insertCar(value);
   }
 
   @action
@@ -46,10 +35,20 @@ abstract class _CarListControllerBase with Store {
     List<CarModel> newCars = cars.map((e) => e).toList();
 
     cars = newCars
-        .map((value) =>
-            value = value.model == updatedCar.model ? updatedCar : value)
+        .map((value) => value = value.id == updatedCar.id ? updatedCar : value)
         .toList();
 
-    await localRepository.updateCar(updatedCar);
+    await _localRepository.updateCar(updatedCar);
+  }
+
+  @action
+  deleteCar(CarModel car) async {
+    List<CarModel> newCars = cars.map((e) => e).toList();
+
+    newCars.removeWhere((element) => car.id == element.id);
+
+    cars = newCars;
+
+    await _localRepository.deleteCar(car);
   }
 }

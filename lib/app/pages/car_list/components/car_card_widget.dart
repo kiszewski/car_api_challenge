@@ -18,8 +18,8 @@ class CarCardWidget extends StatelessWidget {
       child: Stack(
         children: [
           Positioned.fill(
-              child: FittedBox(
-                  fit: BoxFit.cover, child: Image.network(car.photo))),
+              child:
+                  FittedBox(fit: BoxFit.fill, child: Image.network(car.photo))),
           Positioned.fill(
             child: Container(color: Colors.black26),
           ),

@@ -15,11 +15,11 @@ class _CarCreatePageState extends State<CarCreatePage> {
   @override
   Widget build(BuildContext context) {
     CarModel carArgument = CarModel();
-    bool edit = false;
+    bool isEdit = false;
 
     if (ModalRoute.of(context).settings.arguments != null) {
       carArgument = ModalRoute.of(context).settings.arguments;
-      edit = true;
+      isEdit = true;
     }
 
     final CarListController globalCarController =
@@ -31,17 +31,43 @@ class _CarCreatePageState extends State<CarCreatePage> {
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         centerTitle: true,
-        title: Text(edit ? 'Editar Carro' : 'Criar novo carro'),
+        title: Text(isEdit ? 'Editar Carro' : 'Criar novo carro'),
+        actions: [
+          isEdit
+              ? IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () async {
+                    await showDialog(
+                        context: context,
+                        child: AlertDialog(
+                          title: Text(
+                              'Tem certeza que deseja deletar esse carro?'),
+                          actions: [
+                            TextButton(
+                                onPressed: () async {
+                                  await globalCarController
+                                      .deleteCar(carArgument);
+
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Deletar'))
+                          ],
+                        ));
+                  },
+                )
+              : Container()
+        ],
       ),
       body: TextFieldListWidget(
-        edit: edit,
+        isEdit: isEdit,
         controller: controller,
       ),
       floatingActionButton: FloatingActionButton(
           backgroundColor: Theme.of(context).primaryColor,
           child: Icon(Icons.check),
           onPressed: () async {
-            edit ? await controller.editCar() : await controller.addNewCar();
+            isEdit ? await controller.editCar() : await controller.addNewCar();
             Navigator.of(context).pop();
           }),
     );

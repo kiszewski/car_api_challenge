@@ -15,22 +15,17 @@ class LocalRepository {
     }
   }
 
-  insertCloneCar(CarModel car) async {
-    final existingCars = await db
-        .query('clone_cars', where: 'model = ?', whereArgs: [car.model]);
-
-    if (existingCars.isEmpty) {
-      await db.insert('clone_cars', car.toJson());
-    }
-  }
-
-  Future<List<CarModel>> getCloneCars() async {
-    final maps = await db.query('clone_cars');
+  Future<List<CarModel>> getCars() async {
+    final maps = await db.query('cars');
     return maps.map((json) => CarModel.fromJson(json)).toList();
   }
 
   Future updateCar(CarModel car) async {
-    await db.update('clone_cars', car.toJson(),
+    await db.update('cars', car.toJson(),
         where: 'model = ?', whereArgs: [car.model]);
+  }
+
+  Future deleteCar(CarModel car) async {
+    await db.delete('cars', where: 'model = ?', whereArgs: [car.model]);
   }
 }

@@ -26,19 +26,27 @@ class _CarListPageState extends State<CarListPage> {
           )
         ],
       ),
-      body: Container(
-        color: Theme.of(context).accentColor,
-        child: Observer(
-          builder: (context) {
-            return ListView.builder(
-              physics: BouncingScrollPhysics(),
-              itemCount: controller.cars.length,
-              itemBuilder: (context, index) =>
-                  CarCardWidget(car: controller.cars[index]),
-            );
-          },
-        ),
-      ),
+      body: FutureBuilder(
+          future: controller.fetchInitialData(),
+          builder: (_, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return Container(
+                color: Theme.of(context).accentColor,
+                child: Observer(
+                  builder: (context) {
+                    return ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: controller.cars.length,
+                      itemBuilder: (context, index) =>
+                          CarCardWidget(car: controller.cars[index]),
+                    );
+                  },
+                ),
+              );
+            } else {
+              return CircularProgressIndicator();
+            }
+          }),
     );
   }
 }
