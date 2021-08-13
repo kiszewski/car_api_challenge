@@ -24,8 +24,4 @@ abstract class _LoginControllerBase with Store {
 
     return canLogin;
   }
-
-  Future signUp() async {
-    // final canLogin = await _repository.signUp();
-  }
 }

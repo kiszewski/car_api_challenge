@@ -1,5 +1,7 @@
 import 'package:car_api_challenge/app/pages/car_create/car_create_page.dart';
 import 'package:car_api_challenge/app/pages/login/login_page.dart';
+import 'package:car_api_challenge/app/pages/sign_up/sign_up_controller.dart';
+import 'package:car_api_challenge/app/pages/sign_up/sign_up_page.dart';
 import 'package:car_api_challenge/app/repositories/local_repository.dart';
 import 'package:car_api_challenge/app/repositories/login_repository.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +31,10 @@ class MyApp extends StatelessWidget {
           update: (context, repository, previous) =>
               LoginController(repository),
         ),
+        ProxyProvider<LoginRepository, SignUpController>(
+          update: (context, repository, previous) =>
+              SignUpController(repository),
+        ),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -37,6 +43,7 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => LoginPage(),
+          '/sign_up': (context) => SignUpPage(),
           '/home': (context) => CarListPage(),
           '/create': (context) => CarCreatePage(),
           '/edit': (context) => CarCreatePage(),

@@ -8,12 +8,21 @@ class LoginRepository {
 
   Future<bool> login(String username, String password) async {
     final maps = await db.query('users',
-        where: 'username = $username AND password = $password');
+        where: 'username = ? AND password = ?',
+        whereArgs: [username, password]);
 
     return maps.length > 0;
   }
 
   Future signUp(UserModel user) async {
-    final result = await db.insert('users', user.toJson());
+    final maps = await db
+        .query('users', where: 'username = ?', whereArgs: [user.username]);
+
+    if (maps.length > 0) {
+      return false;
+    } else {
+      final result = await db.insert('users', user.toJson());
+      return true;
+    }
   }
 }

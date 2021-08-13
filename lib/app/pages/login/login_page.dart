@@ -17,35 +17,50 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         title: Text('Login'),
       ),
-      body: Column(
-        children: [
-          TextField(
-            controller: TextEditingController(text: ''),
-            onChanged: controller.setUsername,
-            decoration: InputDecoration(labelText: 'Username'),
-          ),
-          TextField(
-            controller: TextEditingController(text: ''),
-            onChanged: controller.setPassword,
-            decoration: InputDecoration(labelText: 'Senha'),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final canLogin = await controller.login();
-
-          if (canLogin) {
-            Navigator.of(context).pushReplacementNamed('/home');
-          } else {
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Usuário não existente ou senha errada'),
-                backgroundColor: Colors.red,
+      body: Container(
+        padding: EdgeInsets.all(20),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              TextField(
+                controller: TextEditingController(text: ''),
+                onChanged: controller.setUsername,
+                decoration: InputDecoration(labelText: 'Username'),
               ),
-            );
-          }
-        },
+              TextField(
+                controller: TextEditingController(text: ''),
+                onChanged: controller.setPassword,
+                decoration: InputDecoration(labelText: 'Senha'),
+              ),
+              Container(
+                padding: EdgeInsets.all(16),
+                child: InkWell(
+                  child: Text('Criar novo usuário'),
+                  onTap: () => Navigator.of(context).pushNamed('/sign_up'),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: Builder(
+        builder: (context) => FloatingActionButton(
+          child: Icon(Icons.check),
+          onPressed: () async {
+            final canLogin = await controller.login();
+
+            if (canLogin) {
+              Navigator.of(context).pushReplacementNamed('/home');
+            } else {
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Usuário não existente ou senha errada'),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }
