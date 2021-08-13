@@ -9,6 +9,14 @@ part of 'login_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$LoginController on _LoginControllerBase, Store {
+  Computed<bool> _$allFieldsCorrectComputed;
+
+  @override
+  bool get allFieldsCorrect => (_$allFieldsCorrectComputed ??= Computed<bool>(
+          () => super.allFieldsCorrect,
+          name: '_LoginControllerBase.allFieldsCorrect'))
+      .value;
+
   final _$usernameAtom = Atom(name: '_LoginControllerBase.username');
 
   @override
@@ -68,7 +76,8 @@ mixin _$LoginController on _LoginControllerBase, Store {
   String toString() {
     return '''
 username: ${username},
-password: ${password}
+password: ${password},
+allFieldsCorrect: ${allFieldsCorrect}
     ''';
   }
 }

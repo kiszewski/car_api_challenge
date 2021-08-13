@@ -2,7 +2,7 @@ import 'package:car_api_challenge/app/pages/car_create/car_create_page.dart';
 import 'package:car_api_challenge/app/pages/login/login_page.dart';
 import 'package:car_api_challenge/app/pages/sign_up/sign_up_controller.dart';
 import 'package:car_api_challenge/app/pages/sign_up/sign_up_page.dart';
-import 'package:car_api_challenge/app/repositories/local_repository.dart';
+import 'package:car_api_challenge/app/repositories/cars_repository.dart';
 import 'package:car_api_challenge/app/repositories/login_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,8 +21,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<LocalRepository>(create: (context) => LocalRepository(db)),
-        ProxyProvider<LocalRepository, CarListController>(
+        Provider<CarsRepository>(create: (context) => CarsRepository(db)),
+        ProxyProvider<CarsRepository, CarListController>(
           update: (context, repository, previous) =>
               CarListController(repository),
         ),

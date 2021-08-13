@@ -19,6 +19,11 @@ abstract class _LoginControllerBase with Store {
   @action
   setPassword(String value) => password = value;
 
+  @computed
+  bool get allFieldsCorrect {
+    return password.isNotEmpty && username.isNotEmpty;
+  }
+
   Future<bool> login() async {
     final canLogin = await _repository.login(username, password);
 

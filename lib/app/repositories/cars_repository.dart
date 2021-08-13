@@ -1,10 +1,10 @@
 import 'package:car_api_challenge/app/models/car_model.dart';
 import 'package:sqflite/sqflite.dart';
 
-class LocalRepository {
+class CarsRepository {
   final Database db;
 
-  LocalRepository(this.db);
+  CarsRepository(this.db);
 
   Future insertCar(CarModel car) async {
     final existingCars =

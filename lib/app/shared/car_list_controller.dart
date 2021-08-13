@@ -1,12 +1,12 @@
 import 'package:car_api_challenge/app/models/car_model.dart';
-import 'package:car_api_challenge/app/repositories/local_repository.dart';
+import 'package:car_api_challenge/app/repositories/cars_repository.dart';
 import 'package:mobx/mobx.dart';
 part 'car_list_controller.g.dart';
 
 class CarListController = _CarListControllerBase with _$CarListController;
 
 abstract class _CarListControllerBase with Store {
-  final LocalRepository _localRepository;
+  final CarsRepository _localRepository;
 
   _CarListControllerBase(this._localRepository);
 

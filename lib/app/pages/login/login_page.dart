@@ -62,23 +62,25 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       floatingActionButton: Builder(
-        builder: (context) => FloatingActionButton(
-          child: Icon(Icons.check),
-          onPressed: () async {
-            final canLogin = await controller.login();
+        builder: (context) => controller.allFieldsCorrect
+            ? FloatingActionButton(
+                child: Icon(Icons.check),
+                onPressed: () async {
+                  final canLogin = await controller.login();
 
-            if (canLogin) {
-              Navigator.of(context).pushReplacementNamed('/home');
-            } else {
-              Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Usuário não existente ou senha errada'),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            }
-          },
-        ),
+                  if (canLogin) {
+                    Navigator.of(context).pushReplacementNamed('/home');
+                  } else {
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Usuário não existente ou senha errada'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
+                },
+              )
+            : Container(),
       ),
     );
   }

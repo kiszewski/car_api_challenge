@@ -1,5 +1,6 @@
 import 'package:car_api_challenge/app/pages/sign_up/sign_up_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
@@ -53,6 +54,12 @@ class _SignUpPageState extends State<SignUpPage> {
                 decoration: InputDecoration(labelText: 'Username'),
               ),
               TextField(
+                keyboardType: TextInputType.numberWithOptions(
+                    decimal: false, signed: true),
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(
+                      RegExp(r'^\s*[0-9]{1,2}\s*$')),
+                ],
                 controller: TextEditingController(text: ''),
                 onChanged: (value) => controller.setAge(int.parse(value)),
                 decoration: InputDecoration(labelText: 'Idade'),
