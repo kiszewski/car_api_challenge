@@ -10,6 +10,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController _password = TextEditingController();
+
+  bool _showPassword = false;
+
+  _toggleShowPassword() {
+    setState(() {
+      _showPassword = !_showPassword;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<LoginController>(context);
@@ -28,9 +38,17 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: InputDecoration(labelText: 'Username'),
               ),
               TextField(
-                controller: TextEditingController(text: ''),
+                controller: _password,
                 onChanged: controller.setPassword,
-                decoration: InputDecoration(labelText: 'Senha'),
+                decoration: InputDecoration(
+                    labelText: 'Senha',
+                    suffixIcon: IconButton(
+                      icon: Icon(_showPassword
+                          ? Icons.visibility_off
+                          : Icons.visibility),
+                      onPressed: _toggleShowPassword,
+                    )),
+                obscureText: _showPassword ? false : true,
               ),
               Container(
                 padding: EdgeInsets.all(16),

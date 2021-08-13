@@ -11,6 +11,25 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  TextEditingController _password = TextEditingController();
+  TextEditingController _confirmPassword = TextEditingController();
+
+  bool _showPassword = false;
+
+  _toggleShowPassword() {
+    setState(() {
+      _showPassword = !_showPassword;
+    });
+  }
+
+  bool _showConfirmPassword = false;
+
+  _toggleConfirmPassword() {
+    setState(() {
+      _showConfirmPassword = !_showConfirmPassword;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<SignUpController>(context);
@@ -39,14 +58,30 @@ class _SignUpPageState extends State<SignUpPage> {
                 decoration: InputDecoration(labelText: 'Idade'),
               ),
               TextField(
-                controller: TextEditingController(text: ''),
+                controller: _password,
                 onChanged: controller.setPassword,
-                decoration: InputDecoration(labelText: 'Senha'),
+                decoration: InputDecoration(
+                    labelText: 'Senha',
+                    suffixIcon: IconButton(
+                      icon: Icon(_showPassword
+                          ? Icons.visibility_off
+                          : Icons.visibility),
+                      onPressed: _toggleShowPassword,
+                    )),
+                obscureText: _showPassword ? false : true,
               ),
               TextField(
-                controller: TextEditingController(text: ''),
+                controller: _confirmPassword,
                 onChanged: controller.setConfirmPassword,
-                decoration: InputDecoration(labelText: 'Cofirmar Senha'),
+                decoration: InputDecoration(
+                    labelText: 'Cofirmar Senha',
+                    suffixIcon: IconButton(
+                      icon: Icon(_showPassword
+                          ? Icons.visibility_off
+                          : Icons.visibility),
+                      onPressed: _toggleConfirmPassword,
+                    )),
+                obscureText: _showConfirmPassword ? false : true,
               ),
             ],
           ),
